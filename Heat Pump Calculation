@@ -1,0 +1,187 @@
+LeadData = zoho.crm.getRecordById("Leads",Lead_ID);
+UpdateMap = Map();
+if(LeadData.get("Monthly_Gas_Expense") == Null || LeadData.get("Monthly_Electricity_Expense") == Null)
+{
+	return;
+}
+UpdateMap.put("Annual_Energy_Expenses",(LeadData.get("Monthly_Gas_Expense") + LeadData.get("Monthly_Electricity_Expense")) * 12);
+/////////////////////////////////////
+if(LeadData.get("Presentation_Type") == "Ducted")
+{
+	if(LeadData.get("Current_Heating_Fuel_Type_Ducted") == "Furnace (Natural Gas)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Natural Gas Furnace - Standard Efficiency 60% Seasonal Efficiency");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557053);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ducted") == "Furnace (Propane)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Propane Furnace - Standard Efficiency 60% Seasonal Efficiency");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557046);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ducted") == "Furnace (Heating Oil)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Oil Furnace - Standard Efficiency 60% Seasonal Efficiency");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557065);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ducted") == "Furnace (Electric)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Furnace Electric");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557060);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ducted") == "Old Heat Pump (Electric)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Conventional Air Source Heat Pump with Electric Auxiliary Heat");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557064);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+}
+else if(LeadData.get("Presentation_Type") == "Ductless")
+{
+	if(LeadData.get("Current_Heating_Fuel_Type_Ductless") == "Wall Furnace (Natural Gas)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Natural Gas Furnace - Standard Efficiency 60% Seasonal Efficiency");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557053);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ductless") == "Wall Furnace (Propane)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Propane Furnace - Standard Efficiency 60% Seasonal Efficiency");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557046);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ductless") == "Wall Furnace (Electric)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Furnace Electric");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557060);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ductless") == "Radiator (Natural Gas)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Natural Gas Furnace - Standard Efficiency 60% Seasonal Efficiency");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557053);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ductless") == "Radiator (Propane)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Propane Furnace - Standard Efficiency 60% Seasonal Efficiency");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557046);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ductless") == "Baseboard Heater (Electric)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Furnace Electric");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557060);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+	else if(LeadData.get("Current_Heating_Fuel_Type_Ductless") == "Old Ductless Heat Pump (Electric)")
+	{
+		somedata = zoho.crm.searchRecords("Heating_Fuel_Savings","Name:equals:Conventional Air Source Heat Pump with Electric Auxiliary Heat");
+		// 		somedata = zoho.crm.getRecordById("Heating_Fuel_Savings", 5188268000000557064);
+		UpdateMap.put("Average_Energy_Savings",somedata.getJSON("Savings"));
+	}
+}
+///////////////////////////////////////
+// somedata = zoho.crm.searchRecords("Variables","Name:starts_with:Energy Utilization for Heating and Cooling"); 
+somedata = zoho.crm.getRecordById("Variables",5188268000000716086);
+if(LeadData.get("Monthly_Gas_Expense") == Null || LeadData.get("Monthly_Electricity_Expense") == Null || somedata.getJSON("Input") == Null || UpdateMap.get("Average_Energy_Savings") == Null)
+{
+	return;
+}
+LineCalc = (LeadData.get("Monthly_Gas_Expense") + LeadData.get("Monthly_Electricity_Expense")) * somedata.getJSON("Input") / 100 * UpdateMap.get("Average_Energy_Savings") / 100;
+UpdateMap.put("Monthly_Energy_Savings",1);
+///////////////////////////////////////
+if(UpdateMap.get("Monthly_Energy_Savings") == Null)
+{
+	return;
+}
+UpdateMap.put("Annual_Energy_Savings",UpdateMap.get("Monthly_Energy_Savings") * 12);
+///////////////////////////////////////
+//Changes
+if(UpdateMap.get("Monthly_Energy_Savings") == Null || LeadData.get("Monthly_Payment_Open_Term_Agreement") == Null)
+{
+	return;
+}
+UpdateMap.put("Net_Monthly_Savings_Option_B",UpdateMap.get("Monthly_Energy_Savings") - LeadData.get("Monthly_Payment_Open_Term_Agreement"));
+///////////////////////////////////////
+if(UpdateMap.get("Net_Monthly_Savings_Option_B") == Null)
+{
+	return;
+}
+UpdateMap.put("Net_Annual_Savings_Option_B",UpdateMap.get("Net_Monthly_Savings_Option_B") * 12);
+////////////////////////////////////////
+if(UpdateMap.get("Monthly_Energy_Savings") == Null || LeadData.get("Monthly_Payment_Effective_After_12_Months") == Null)
+{
+	return;
+}
+UpdateMap.put("Net_Monthly_Savings_Option_A",UpdateMap.get("Monthly_Energy_Savings") - LeadData.get("Monthly_Payment_Effective_After_12_Months"));
+////////////////////////////////////////
+if(UpdateMap.get("Net_Monthly_Savings_Option_A") == Null)
+{
+	return;
+}
+UpdateMap.put("Net_Annual_Savings_Option_A",UpdateMap.get("Net_Monthly_Savings_Option_A") * 12);
+///////////////////////////////////////
+somedata = zoho.crm.searchRecords("Variables","Name:equals:Audit Price");
+if(somedata.getJSON("Input") == Null)
+{
+	return;
+}
+UpdateMap.put("Audit_Costs",somedata.getJSON("Input"));
+///////////////////////////////////////
+if(somedata.getJSON("Input") == Null || LeadData.get("Weaver_Attic_Solution_Cost") == Null)
+{
+	return;
+}
+UpdateMap.put("Total_Costs",somedata.getJSON("Input") + LeadData.get("Weaver_Attic_Solution_Cost"));
+///////////////////////////////////////
+somedata = zoho.crm.searchRecords("Variables","Name:equals:Promotion Amount");
+if(somedata.getJSON("Input") == Null)
+{
+	return;
+}
+UpdateMap.put("Automatic_Promotion",somedata.getJSON("Input"));
+///////////////////////////////////////
+if(LeadData.get("Presentation_Type") == "Ducted")
+{
+	somedata = zoho.crm.searchRecords("Variables","Name:equals:Ducted Rebate");
+	// 	somedata = zoho.crm.getRecordById("Variables", 5188268000000716085);
+	UpdateMap.put("Automatic_Rebate",somedata.getJSON("Input"));
+}
+else if(LeadData.get("Presentation_Type") == "Ductless")
+{
+	if(LeadData.get("Number_of_Indoor_Units_Required") > 2)
+	{
+		somedata = zoho.crm.searchRecords("Variables","Name:equals:Ductless Rebate 1-2 Units");
+		// 		somedata = zoho.crm.getRecordById("Variables", 5188268000000716083);
+		UpdateMap.put("Automatic_Rebate",somedata.getJSON("Input"));
+	}
+	else
+	{
+		somedata = zoho.crm.searchRecords("Variables","Name:equals:Ductless Rebate 3+ Units");
+		// 		somedata = zoho.crm.getRecordById("Variables", 5188268000000716084);
+		UpdateMap.put("Automatic_Rebate",somedata.getJSON("Input"));
+	}
+}
+if(UpdateMap.get("Automatic_Rebate") == Null)
+{
+	return;
+}
+///////////////////////////////////////
+if(UpdateMap.get("Total_Costs") == Null || UpdateMap.get("Audit_Costs") == Null || UpdateMap.get("Automatic_Promotion") == Null || UpdateMap.get("Automatic_Rebate") == Null)
+{
+	return;
+}
+someVal = UpdateMap.get("Total_Costs") - UpdateMap.get("Audit_Costs") - UpdateMap.get("Automatic_Promotion") - UpdateMap.get("Automatic_Rebate");
+UpdateMap.put("Total_Costs_After_Rebate",someVal);
+///////////////////////////////////////
+Current_Month_Number = zoho.currentdate.getMonth();
+MonthsOfYear = List:String({"Zero","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"});
+Current_Month_Name = MonthsOfYear.get(Current_Month_Number);
+UpdateMap.put("Current_Month",MonthsOfYear.get(Current_Month_Number));
+///////////////////////////////////////
+info "UpdateMap: " + UpdateMap;
+result = zoho.crm.updateRecord("Leads",Lead_ID,UpdateMap);
