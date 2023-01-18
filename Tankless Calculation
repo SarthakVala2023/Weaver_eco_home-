@@ -1,0 +1,141 @@
+Lead_ID = "5188268000007790069";
+LeadData = zoho.crm.getRecordById("Leads",Lead_ID);
+//LeadData = zoho.crm.getRecordById("Leads","5188268000007790069");
+UpdateMap = Map();
+//	Promotion Amount
+// somedata = zoho.crm.searchRecords("Variables","Name:equals:Promotion Amount");
+// if(somedata.getJSON("Input") == Null)
+// {
+// 	return;
+// }
+// UpdateMap.put("Promotion_Amount",somedata.getJSON("Input"));
+//	Rebate Amount
+//?
+//	Annual Expenses
+if(LeadData.get("Monthly_Gas_Expense") == Null || LeadData.get("Monthly_Electricity_Expense") == Null || LeadData.get("Monthly_Water_Expenses") == Null)
+{
+	return;
+}
+someVal = (LeadData.get("Monthly_Gas_Expense") + LeadData.get("Monthly_Electricity_Expense") + LeadData.get("Monthly_Water_Expenses")) * 12;
+UpdateMap.put("Annual_Expenses",someVal);
+info someVal;
+//	Monthly Savings
+// info "LeadData: " + LeadData;
+// info "Monthly_Gas_Expense: " + LeadData.get("Monthly_Gas_Expense");
+// info "Monthly_Electricity_Expense: " + LeadData.get("Monthly_Electricity_Expense");
+// info "Estimated_Savings_in: " + LeadData.get("Estimated_Savings_in");
+if(LeadData.get("Monthly_Gas_Expense") == Null || LeadData.get("Monthly_Electricity_Expense") == Null || LeadData.get("Estimated_Savings_in") == Null)
+{
+	return;
+}
+someVal = (LeadData.get("Monthly_Gas_Expense") + LeadData.get("Monthly_Electricity_Expense") + LeadData.get("Monthly_Water_Expenses")) * LeadData.get("Estimated_Savings_in") / 100 * 0.7;
+// 
+UpdateMap.put("Monthly_Savings",someVal);
+//  Annual Savings
+if(UpdateMap.get("Monthly_Savings") == Null)
+{
+	return;
+}
+someVal = UpdateMap.get("Monthly_Savings") * 12;
+info someVal;
+UpdateMap.put("Annual_Savings",someVal);
+//  Net Savings
+if(UpdateMap.get("Monthly_Savings") == Null || LeadData.get("Monthly_Payment_Open_Term_Agreement") == Null)
+{
+	return;
+}
+someVal = UpdateMap.get("Monthly_Savings") - LeadData.get("Monthly_Payment_Open_Term_Agreement");
+UpdateMap.put("Net_Savings",someVal);
+info someVal;
+//  Total Costs (Attic)
+/*if(LeadData.get("Energy_Audit_Cost") == Null || LeadData.get("Weaver_Attic_Solution_Cost") == Null)
+{
+	return;
+}
+someVal = LeadData.get("Energy_Audit_Cost") + LeadData.get("Weaver_Attic_Solution_Cost");
+UpdateMap.put("Total_Costs_Attic",someVal);
+
+//	Rebate Range
+//in progress
+if(LeadData.get("Storage_Room_in_the_Attic") == "yes")
+{
+	somedata = zoho.crm.searchRecords("Variables","Name:equals:Rebate Attic Room");
+	UpdateMap.put("Rebate_Range",somedata.getJSON("Range"));
+}
+else if(LeadData.get("Year_House_was_Built") <= 1970)
+{
+	somedata = zoho.crm.searchRecords("Variables","Name:equals:Rebate Age <= 1970");
+	UpdateMap.put("Rebate_Range",somedata.getJSON("Range"));
+}
+else if(LeadData.get("Year_House_was_Built") <= 2005)
+{
+	somedata = zoho.crm.searchRecords("Variables","Name:equals:Rebate Age 1970 to 2005");
+	UpdateMap.put("Rebate_Range",somedata.getJSON("Range"));
+}
+else
+{
+	somedata = zoho.crm.searchRecords("Variables","Name:equals:Rebate Age >= 2006");
+	UpdateMap.put("Rebate_Range",somedata.getJSON("Range"));
+}
+if(UpdateMap.get("Rebate_Range") == Null)
+{
+	return;
+}
+//	Automatic Rebate (Attic)
+//in progress
+
+if(LeadData.get("Storage_Room_in_the_Attic") == "yes")
+{
+	somedata = zoho.crm.searchRecords("Variables","Name:equals:Rebate Attic Room");
+	UpdateMap.put("Automatic_Rebate_Attic",somedata.getJSON("Input"));
+}
+else if(LeadData.get("Year_House_was_Built") <= 1970)
+{
+	somedata = zoho.crm.searchRecords("Variables","Name:equals:Rebate Age <= 1970");
+	UpdateMap.put("Automatic_Rebate_Attic",somedata.getJSON("Input"));
+}
+else if(LeadData.get("Year_House_was_Built") <= 2005)
+{
+	somedata = zoho.crm.searchRecords("Variables","Name:equals:Rebate Age 1970 to 2005");
+	UpdateMap.put("Automatic_Rebate_Attic",somedata.getJSON("Input"));
+}
+else
+{
+	somedata = zoho.crm.searchRecords("Variables","Name:equals:Rebate Age >= 2006");
+	UpdateMap.put("Automatic_Rebate_Attic",somedata.getJSON("Input"));
+}
+if(UpdateMap.get("Automatic_Rebate_Attic") == Null)
+{
+	return;
+}
+//  Total Costs After Rebate (Attic)	
+if(LeadData.get("Energy_Audit_Cost") == Null || LeadData.get("Weaver_Attic_Solution_Cost") == Null || UpdateMap.get("Promotion_Amount") == Null || UpdateMap.get("Automatic_Rebate_Attic") == Null)
+{
+	return;
+}
+someVal = LeadData.get("Energy_Audit_Cost") + LeadData.get("Weaver_Attic_Solution_Cost") - UpdateMap.get("Promotion_Amount") - UpdateMap.get("Automatic_Rebate_Attic");
+UpdateMap.put("Total_Costs_After_Rebate_Attic",someVal);
+//	Monthly Payment Flat
+somedata = zoho.crm.searchRecords("Variables","Name:equals:Monthly Payment Flat");
+if(somedata.getJSON("Input") == Null)
+{
+	return;
+}
+UpdateMap.put("Monthly_Payment_Flat",somedata.getJSON("Input"));
+*/
+//  Monthly Savings Deferred
+if(UpdateMap.get("Monthly_Savings") == Null || LeadData.get("Monthly_Payment_Effective_After_12_Months") == Null)
+{
+	return;
+}
+someVal = UpdateMap.get("Monthly_Savings") - LeadData.get("Monthly_Payment_Effective_After_12_Months");
+info someVal;
+UpdateMap.put("Monthly_Savings_Deferred",someVal);
+//  Current Month
+Current_Month_Number = zoho.currentdate.getMonth();
+MonthsOfYear = List:String({"Zero","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"});
+Current_Month_Name = MonthsOfYear.get(Current_Month_Number);
+UpdateMap.put("Current_Month",MonthsOfYear.get(Current_Month_Number));
+info "UpdateMap: " + UpdateMap;
+result = zoho.crm.updateRecord("Leads",Lead_ID,UpdateMap);
+info result;
